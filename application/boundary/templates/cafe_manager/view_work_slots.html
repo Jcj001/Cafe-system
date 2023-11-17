@@ -1,0 +1,113 @@
+{% extends "./cafe_manager/base.html" %}
+
+{% block styles %}
+    <style>
+        table{
+            width: 100%;
+            text-align: left;
+        }
+
+        td, th{
+            margin: 0;
+            padding: 5px;
+            border: none;
+        }
+
+        tr:nth-child(even){
+            background-color: #e8e8e8;
+        }
+
+        .search-field{
+            float: right;
+            margin-bottom: 20px;
+        }
+
+        .search-field input[type=submit]{
+            padding: 7px;
+
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid black;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .search-field select{
+            padding: 7px;
+            width: 300px;
+            border-radius: 7px;
+            outline: none;
+            border: 1px solid lightgrey;
+        }
+
+        .subtable{
+            background-color: #e8e8e8;
+            font-size: 14px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="search-field">
+        <form>
+            <select name="q" required>
+                <option value="">-- Choose Shift --</option>
+                {% for shift in shifts %}
+                    <option value="{{ shift['shift'] }}">{{ shift['shift']  }}</option>
+                {% endfor %}
+            </select>
+            <input type="submit" value="Search">
+        </form>
+    </div>
+    <table cellspacing="0">
+        <thead>
+            <th>#</th>
+            <th>Date</th>
+            <th>Shift</th>
+            <th></th>
+        </thead>
+        <tbody>
+            {% for slot in slots %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ slot[1] }}</td>
+                    <td>{{ slot[2] }}</td>
+                    <td>
+                        {% if forPage == "unassigned" %}
+                            <a href="">Assign</a>
+                        {% else %}
+                            <a href="{{ url_for("boundary.manager.view_bids", slot_id=slot[0]) }}">View Bids</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {# {% if slot.bids %}
+                {#                    <tr>
+                {#                        <td colspan="4">
+                {#                            <table class="subtable" cellspacing="0">
+                {#                            <thead>
+                {#                                <tr>
+                {#                                    <th>Bidder Name</th>
+                {#                                    <th>Role</th>
+                {#                                    <th>Phone</th>
+                {#                                </tr>
+                {#                            </thead>
+                {#                            <tbody>
+                {#                                {% for bid in slot.bids %}
+                {#                                    <tr>
+                {#                                        <td>{{ bid.bidder.first_name }} {{ bid.bidder.last_name }}</td>
+                {#                                        <td>{{ bid.bidder.role }}</td>
+                {#                                        <td>{{ bid.bidder.phone }}</td>
+                {#                                    </tr>
+                {#                                {% endfor %}
+                {#                            </tbody>
+                {#                        </table>
+                {#                        </td>
+                {#                    </tr>
+                {#                {% endif %} #}
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

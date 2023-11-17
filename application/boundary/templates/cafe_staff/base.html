@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} | Cafe Staff</title>
+    <link rel="stylesheet" href="{{ url_for('boundary.static', filename='admin/base.css') }}">
+
+    {% block styles %}
+    {% endblock styles %}
+
+</head>
+<body>
+    <section class="container">
+        <aside class="side-bar flex-column">
+            <div class="side-bar__header">
+                <h3>Cafe Management System</h3>
+            </div>
+
+            <div class="side-bar__section">
+                <span class="side-bar__section-heading">ACCOUNT</span>
+                <div class="side-bar__section-content flex-column">
+                    <div class="side-bar__option">
+                        <a href="{{ url_for('boundary.staff.view_profile' ) }}">View Account</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-bar__section">
+                <span class="side-bar__section-heading">WORK SLOTS</span>
+                <div class="side-bar__section-content flex-column">
+                    <div class="side-bar__option">
+                        <a href="{{ url_for('boundary.staff.view_all_work_slots' ) }}">View Work Slots</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="side-bar__section">
+                <span class="side-bar__section-heading">BIDS</span>
+                <div class="side-bar__section-content flex-column">
+                    <div class="side-bar__option">
+                        <a href="{{ url_for('boundary.staff.view_my_bids' ) }}">View My Bids</a>
+                    </div>
+                    <div class="side-bar__option">
+                        <a href="{{ url_for('boundary.staff.view_my_bids' ) }}?q=APPROVED">View Approved Bids</a>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="side-bar__section section__signout">
+                <div class="side-bar__section-content">
+                    <div class="side-bar__option">
+                        <a href="{{ url_for('boundary.auth.logout') }}">Sign Out</a>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        <main class="content">
+            <div class="page__heading">
+                <h1>{{ title }}</h1>
+            </div>
+            <div class="content__wrapper">
+                <div class="flash_messages">
+                    {% with messages = get_flashed_messages() %}
+                        {% if messages %}
+                            {% for message in messages %}
+                                <span>{{ message }}</span>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                </div>
+                {% block content %}
+                {% endblock content %}
+            </div>
+        </main>
+    </section>
+</body>
+</html>

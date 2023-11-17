@@ -1,0 +1,76 @@
+{% extends "./cafe_manager/base.html" %}
+
+{% block styles %}
+    <style>
+        table{
+            width: 100%;
+            text-align: left;
+        }
+
+        td, th{
+            margin: 0;
+            padding: 5px;
+            border: none;
+        }
+
+        tr:nth-child(even){
+            background-color: #e8e8e8;
+        }
+
+        .pending{
+            background-color: #7ebbb7;
+        }
+        .rejected{
+            background-color: #b92f4f;
+        }
+        .approved{
+            background-color: #71ea4e;
+        }
+
+        .bid-status{
+            padding: 2px 5px;
+            font-size: 14px;
+            border-radius: 100px;
+            color: white;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <table cellspacing="0">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Bidder Name</th>
+                <th>Role</th>
+                <th>Phone</th>
+                <th>Bid Status</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for bid in bids %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ bid[0] }} {{ bid[1] }}</td>
+                    <td>{{ bid[2] }}</td>
+                    <td>{{ bid[3] }}</td>
+                    <td>
+                        <span class="bid-status {{ bid[4].lower() }}">
+                            {{ bid[4] }}
+                        </span>
+                    </td>
+                    {% if bid[6] == bid[7] %}
+                        <td>
+                            <a href="{{ url_for("boundary.manager.unassign_work_slot") }}?slot_id={{ bid[5] }}&user_id={{ bid[6] }}">Unassign</a>
+                        </td>
+                    {% else %}
+                        <td>
+                            <a href="{{ url_for("boundary.manager.assign_work_slot") }}?slot_id={{ bid[5] }}&user_id={{ bid[6] }}">Assign</a>
+                        </td>
+                    {% endif %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

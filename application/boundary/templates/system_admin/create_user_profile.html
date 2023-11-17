@@ -1,0 +1,31 @@
+{% extends 'system_admin/base.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for("boundary.static", filename='admin/create_user_account.css') }}">
+{% endblock styles %}
+
+{% block content %}
+
+        {% set url = url_for('boundary.admin.create_user_profile') if not page_type else url_for('boundary.admin.update_user_profile', account_id=user[0]) %}
+
+    <form class="flex-column" method="POST" action="{{ url }}">
+        <h3 class="section__heading">Job Information</h3>
+        <div class="form__name">
+            <div class="form__input flex-column">
+                <label class="required">Job Title</label>
+                <input type="text" name="job_title" value="{{ user[1] if page_type else "" }}" required>
+            </div>
+        </div>
+        <div class="form__name">
+            <div class="form__input flex-column">
+                <label class="required">Description</label>
+                <textarea name="description" required>{{ user[2] if page_type else "" }}</textarea>
+            </div>
+        </div>
+        <div class="form__name">
+            <div class="form__submit">
+                <input type="submit" value="{{ "Update Profile" if user else "Add Profile" }}" >
+            </div>
+        </div>
+    </form>
+{% endblock content %}

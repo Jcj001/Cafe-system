@@ -1,0 +1,51 @@
+{% extends "./cafe_manager/base.html" %}
+
+{% block styles %}
+    <style>
+        table{
+            width: 100%;
+            text-align: left;
+        }
+
+        td, th{
+            margin: 0;
+            padding: 5px;
+            border: none;
+        }
+
+        tr:nth-child(even){
+            background-color: #e8e8e8;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <table>
+        <tbody>
+            <tr>
+                <th>First Name</th>
+                <td>{{ user[1]}}</td>
+            </tr>
+            <tr>
+                <th>Last Name</th>
+                <td>{{ user[2] }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ user[3] }}</td>
+            </tr>
+            <tr>
+                <th>Phone Number</th>
+                <td>{{ user[4] }}</td>
+            </tr>
+            <tr>
+                <th>User-ID</th>
+                <td>{{ user[5] }}</td>
+            </tr>
+            <tr>
+                <th>Role</th>
+                <td>{{ user[6] }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}

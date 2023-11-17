@@ -1,0 +1,66 @@
+{% extends 'system_admin/base.html' %}
+
+{% block styles %}
+    <link rel="stylesheet" href="{{ url_for("boundary.static", filename='admin/create_user_account.css') }}">
+{% endblock styles %}
+
+{% block content %}
+
+    {% set url = url_for('boundary.admin.create_user_account') if not page_type else url_for('boundary.admin.update_user_account', account_id=user[0]) %}
+
+    <form class="flex-column" method="POST" action="{{ url }}">
+        {% if not page_type %}
+            <h3 class="section__heading">User Profile</h3>
+                <div class="form__name">
+                    <div class="form__input flex-column form_block">
+                        <label class="required">Select User Profile</label>
+                        <select name="row_id" required>
+                            <option value="">Choose Profile</option>
+                            {% for profile in profiles %}
+                                <option value="{{ profile[0] }}">{{ profile[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+        {% endif %}
+        <h3 class="section__heading">Account Credentials</h3>
+        <div class="form__name">
+            <div class="form__input flex-column">
+                <label class="required">User ID</label>
+                <input type="text" name="user_id" required value="{{ user[1] if user else "" }}">
+            </div>
+            <div class="form__input flex-column">
+                <label class="required">Password</label>
+                <input type="text" name="password" required value="{{ user[2] if user else "" }}">
+            </div>
+        </div>
+        <div class="form__name">
+            <div class="form__input flex-column">
+                <label class="required">First Name</label>
+                <input type="text" name="fname" value="{{ user[3] if user else "" }}" required>
+            </div>
+            <div class="form__input flex-column">
+                <label class="required">Last Name</label>
+                <input type="text" name="lname" value="{{ user[4] if user else "" }}" required>
+            </div>
+            <div class="form__input flex-column">
+                <label class="required">Phone Number</label>
+                <input type="text" name="phone" value="{{ user[5] if user else "" }}" required>
+            </div>
+        </div>
+        <div class="form__input form_block flex-column">
+            <label class="required">Access Level</label>
+            <select required name="access_level">
+                <option value="">- Choose Account -</option>
+                {% for level in ACCESS_LEVELS %}
+                    <option {{ "selected" if page_type and level==user[3] else "" }} value="{{ level }}">{{ level.replace("_", " ").capitalize() }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="form__name">
+            <div class="form__submit">
+                <input type="submit" value="{{ "Update Account" if user else "Add Account" }}">
+            </div>
+        </div>
+    </form>
+{% endblock content %}

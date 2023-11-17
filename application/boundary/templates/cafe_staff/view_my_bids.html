@@ -1,0 +1,104 @@
+{% extends "./cafe_staff/base.html" %}
+
+{% block styles %}
+    <style>
+        table{
+            width: 100%;
+            text-align: left;
+        }
+
+        td, th{
+            margin: 0;
+            padding: 5px;
+            border: none;
+        }
+
+        tr:nth-child(even){
+            background-color: #e8e8e8;
+        }
+
+        .bid-status{
+            padding: 2px 5px;
+            font-size: 14px;
+            border-radius: 100px;
+            color: white;
+        }
+        .pending{
+            background-color: #7ebbb7;
+        }
+        .rejected{
+            background-color: #b92f4f;
+        }
+        .approved{
+            background-color: #71ea4e;
+        }
+
+        .search-field{
+            float: right;
+            margin-bottom: 20px;
+        }
+
+        .search-field input[type=submit]{
+            padding: 7px;
+
+            border-radius: 5px;
+            outline: none;
+            border: 1px solid black;
+            background-color: black;
+            color: white;
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+        .search-field select{
+            padding: 7px;
+            width: 300px;
+            border-radius: 7px;
+            outline: none;
+            border: 1px solid lightgrey;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div>
+        <div class="search-field">
+            <form>
+                <select name="q" required>
+                    <option value="">-- Choose Status --</option>
+                    {% for s in status %}
+                        <option value="{{ s }}">{{ s.capitalize() }}</option>
+                    {% endfor %}
+                </select>
+                <input type="submit" value="Search">
+            </form>
+        </div>
+        <table>
+            <thead>
+                <th>#</th>
+                <th>Date</th>
+                <th>Shift</th>
+                <th>Status</th>
+                <th></th>
+            </thead>
+            <tbody>
+                {% for bid in bids %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ bid[1] }}</td>
+                        <td>{{ bid[2] }}</td>
+                        <td>
+                            <span class="bid-status {{ bid[3].lower() }}">
+                                {{ bid[3] }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="{{ url_for("boundary.staff.remove_bid", bid_id=bid[0]) }}">Remove Bid!</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

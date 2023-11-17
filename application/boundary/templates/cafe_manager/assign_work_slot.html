@@ -1,0 +1,43 @@
+{% extends "./cafe_manager/base.html" %}
+
+{% block styles %}
+        <link rel="stylesheet" href="{{ url_for("boundary.static", filename='admin/create_user_account.css') }}">
+        <style>
+            select{
+                padding: 10px;
+            }
+        </style>
+{% endblock %}
+
+{% block content %}
+    <form class="flex-column" method="POST" action="{{ url_for("boundary.manager.assign_work_slots_to_user", user_id=user_id) }}">
+        <h3 class="section__heading">Assign Work Slot</h3>
+        <div class="form__name">
+            <div class="form__input flex-column">
+                <label class="required">User</label>
+                <select name="user_id" required>
+                    <option value="">-- Choose User --</option>
+                    {% for user in users %}
+                        <option value="{{ user[0] }}" {{ "selected" if user_id and user_id==user[0] else "" }}>{{ user[1] }} {{ user[2] }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form__input flex-column">
+                <div class="form__input flex-column">
+                <label class="required">Work Slots</label>
+                <select name="slot_id" required>
+                    <option value="">-- Choose Work Slot --</option>
+                    {% for slot in work_slots %}
+                        <option value="{{ slot[0] }}">{{ slot[1] }} ({{ slot[2] }})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            </div>
+        </div>
+        <div class="form__name">
+            <div class="form__submit">
+                <input type="submit" value="Assign" >
+            </div>
+        </div>
+    </form>
+{% endblock %}
